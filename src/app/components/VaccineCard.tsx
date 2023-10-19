@@ -11,12 +11,12 @@ export function VaccineCard({
 }: {
   hospitalName: string;
   imageUrl: string;
-  hospitalMap: Map<string, number>;
-  onScoreChange: Function;
+  hospitalMap?: Map<string, number>;
+  onScoreChange?: Function;
 }) {
   const [score, setScore] = useState<number | undefined>(0);
   useEffect(() => {
-    setScore(hospitalMap.get(hospitalName));
+    setScore(hospitalMap?.get(hospitalName));
   }, [hospitalMap]);
   return (
     <InteractiveCard>
@@ -31,6 +31,7 @@ export function VaccineCard({
       <div className="w-full h-[15%] p-[10px]">
         <h4>{hospitalName}</h4>
       </div>
+      { onScoreChange ? 
       <Rating
         name="simple-controlled"
         value={score}
@@ -40,7 +41,8 @@ export function VaccineCard({
         onChange={(event: SyntheticEvent<Element, Event>, newValue: any) => {
           onScoreChange(hospitalName, newValue);
         }}
-      />
+      />:''
+    }
     </InteractiveCard>
   );
 }
